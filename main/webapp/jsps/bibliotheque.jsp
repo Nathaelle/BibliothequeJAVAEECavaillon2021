@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="models.Livre" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,6 +11,7 @@
 </head>
 <body>
 	<h1>Bienvenue dans ma bibliotheque</h1>
+	
 
 	<!-- Afficher les informations des livres -->
 	<h2>Livres disponibles</h2>
@@ -18,12 +21,16 @@
 			<th>Titre</th>
 			<th>Auteur</th>
 		</tr>
+		
+		<!-- Limite partie fixe/ itérations -->
+		<% for(Livre livre : (ArrayList<Livre>) request.getAttribute("bibliotheque")) { %>
 		<tr>
-			<td>rs548</td>
-			<td>Les Misérables</td>
-			<td>Victor Hugo</td>
+			<td><%= livre.getReference() %></td>
+			<td><%= livre.getTitre() %></td>
+			<td><%= livre.getAuteur() %></td>
 		</tr>
-		<tr>
+		<% } %>
+		<!-- <tr>
 			<td>nb548</td>
 			<td>L'Iliade et l'Odyssée</td>
 			<td>Homère</td>
@@ -32,14 +39,16 @@
 			<td>ut862</td>
 			<td>1984</td>
 			<td>George Orwell</td>
-		</tr>
+		</tr> -->
+		<!-- FIN Limite partie fixe/ itérations -->
+		
 	</table>
 	
 	<!-- Ecrire un formulaire permettant d'ajouter un livre -->
 
 	<h2>Ajouter un nouveau livre</h2>
 	
-	<form action="#" method="POST">
+	<form action="bibliotheque" method="POST">
 	
 		<div>
 			<label for="reference">Référence </label>
