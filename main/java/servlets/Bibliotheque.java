@@ -39,6 +39,14 @@ public class Bibliotheque extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//System.out.println(this.bibliotheque.size());
+		if(request.getParameter("action") != null && request.getParameter("reference") != null) {
+			
+			if(request.getParameter("action").equals("delete")) {		
+				delLivre((request.getParameter("reference")));
+			} else if (request.getParameter("action").equals("modify")) {
+				request.setAttribute("livre", find(request.getParameter("reference")));
+			}
+		}
 		
 		request.setAttribute("bibliotheque", this.bibliotheque);
 		
@@ -93,5 +101,21 @@ public class Bibliotheque extends HttpServlet {
 		this.bibliotheque = bibliotheque;
 	}
 	
+	private void delLivre(String ref) {
+		
+		Livre livre = find(ref);
+		
+		if(livre != null) {
+			this.bibliotheque.remove(livre);
+		}
+	}
 	
+	private Livre find(String ref) {
+		for(Livre livre: this.bibliotheque) {
+			if(livre.getReference().equals(ref)) {
+				return livre;
+			}
+		}
+		return null;
+	}
 }

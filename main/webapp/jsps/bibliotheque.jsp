@@ -20,6 +20,7 @@
 			<th>Référence</th>
 			<th>Titre</th>
 			<th>Auteur</th>
+			<th></th>
 		</tr>
 		
 		<!-- Limite partie fixe/ itérations -->
@@ -28,6 +29,12 @@
 			<td><%= livre.getReference() %></td>
 			<td><%= livre.getTitre() %></td>
 			<td><%= livre.getAuteur() %></td>
+			<td>
+				<a href="bibliotheque?action=modify&reference=<%= livre.getReference() %>">Modifier</a> | 
+				<a href="bibliotheque?action=delete&reference=<%= livre.getReference() %>">Supprimer</a>
+			</td>	
+			
+			
 		</tr>
 		<% } %>
 		<!-- <tr>
@@ -48,22 +55,22 @@
 
 	<h2>Ajouter un nouveau livre</h2>
 	
-	<form action="bibliotheque" method="POST">
+	<form action='bibliotheque' method="POST">
 	
 		<div>
 			<label for="reference">Référence </label>
-			<input type="text" name="reference" id="reference">
+			<input type="text" name="reference" id="reference" value='${ livre != null ? livre.reference : "" }'>
 		</div>
 		<div>
 			<label for="titre">Titre </label>
-			<input type="text" name="titre" id="titre">
+			<input type="text" name="titre" id="titre" value='${ livre != null ? livre.titre : "" }'>
 		</div>
 		<div>
 			<label for="auteur">Auteur </label>
-			<input type="text" name="auteur" id="auteur">
+			<input type="text" name="auteur" id="auteur" value='${ livre != null ? livre.auteur : "" }'>
 		</div>
 		<div>
-			<input type="submit" value="Ajouter à la bibliotheque">
+			<input type="submit" value='${ livre != null ? "Modifier le livre" : "Ajouter à la bibliotheque" }'>
 		</div>
 	
 	</form>
