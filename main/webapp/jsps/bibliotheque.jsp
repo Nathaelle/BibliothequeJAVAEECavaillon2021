@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="models.Livre" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
@@ -12,6 +13,44 @@
 <body>
 	<h1>Bienvenue dans ma bibliotheque</h1>
 	
+	<%-- Afficher une valeur (équivalent) --%>
+	<%-- <h2><%= "Hello World" %></h2>
+	<h2><c:out value="Hello World"/></h2> --%>
+	
+	<%-- Créer une variable (équivalent) --%>
+	<%-- <% String maVariable1 = "Ma valeur 1"; %>
+	<p><%= maVariable1 %></p> --%>
+	
+	<%-- <c:set var="maVariable2" value="Ma valeur 2"/>
+	<p><c:out value="${ maVariable2 }"/></p> --%>
+	
+	<%-- Créer une variable (équivalent) --%>
+	<%-- <% if(15 < 50) { %>
+		<h2>Test validé</h2>
+	<% } %>
+	<c:if test="${ 15 < 50 }">
+		<h2>Test validé</h2>
+	</c:if> --%> 
+	
+	<%-- Boucle for (boucle avec compteur) (équivalent) --%>
+	<%-- <% for(int i = 0; i <= 10; i++) { %>
+		<p>Un message n° <%= i %> !</p>
+	<% } %>
+	<c:forEach var="i" begin="0" end="10" step="1">
+	    <p>Un message n° ${ i } !</p>
+	</c:forEach> --%>
+	
+	<%-- Boucle for(each) (boucle de parcours de collection) (équivalent) --%>
+	<%-- <% for(Livre livre: (ArrayList<Livre>) request.getAttribute("bibliotheque")) { %>
+		<p>Titre :  <%= livre.getTitre() %> !</p>
+	<% } %>
+	<c:forEach var="livre" items="${ bibliotheque }" >
+	    <p>Titre : ${ livre.titre } !</p>
+	</c:forEach>
+	
+	<c:forTokens var="morceau" items="Un élément/Encore un autre élément/Un dernier pour la route" delims="/ ">
+	    <p>${ morceau }</p>
+	</c:forTokens> --%>
 
 	<!-- Afficher les informations des livres -->
 	<h2>Livres disponibles</h2>
@@ -24,11 +63,15 @@
 		</tr>
 		
 		<!-- Limite partie fixe/ itérations -->
-		<% for(Livre livre : (ArrayList<Livre>) request.getAttribute("bibliotheque")) { %>
+		<%-- <% for(Livre livre : (ArrayList<Livre>) request.getAttribute("bibliotheque")) { %> --%>
+		<c:forEach var="livre" items="${ bibliothèque }">
 		<tr>
-			<td><%= livre.getReference() %></td>
+			<%-- <td><%= livre.getReference() %></td>
 			<td><%= livre.getTitre() %></td>
-			<td><%= livre.getAuteur() %></td>
+			<td><%= livre.getAuteur() %></td> --%>
+			<td>${ livre.reference }</td>
+			<td>${ livre.titre }</td>
+			<td>${ livre.auteur }</td>
 			<td>
 				<a href="bibliotheque?action=modify&reference=<%= livre.getReference() %>">Modifier</a> | 
 				<a href="bibliotheque?action=delete&reference=<%= livre.getReference() %>">Supprimer</a>
@@ -36,7 +79,8 @@
 			
 			
 		</tr>
-		<% } %>
+		</c:forEach>
+		<%-- <% } %> --%>
 		<!-- <tr>
 			<td>nb548</td>
 			<td>L'Iliade et l'Odyssée</td>
@@ -60,9 +104,11 @@
 		<div>
 			<label for="reference">Référence </label>
 			<input type="text" name="reference" id="reference" value='${ livre != null ? livre.reference : "" }' ${ livre != null ? "disabled" : "" }>			
-			<% if(request.getAttribute("livre") != null) { %>
-			<input type="hidden" name="reference" value='${ livre.reference }'>
-			<% } %>
+			<%-- <% if(request.getAttribute("livre") != null) { %> --%>
+			<c:if test="${ livre != null }">
+				<input type="hidden" name="reference" value='${ livre.reference }'>
+			</c:if>
+			<%-- <% } %> --%>
 		</div>
 		<div>
 			<label for="titre">Titre </label>
