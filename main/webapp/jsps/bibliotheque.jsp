@@ -53,13 +53,16 @@
 	
 	<!-- Ecrire un formulaire permettant d'ajouter un livre -->
 
-	<h2>Ajouter un nouveau livre</h2>
+	<h2>${ livre != null ? "Modifier le livre" : "Ajouter un livre" }</h2>
 	
-	<form action='bibliotheque' method="POST">
+	<form action='bibliotheque?to=${ livre != null ? "mod" : "add" }' method="POST">
 	
 		<div>
 			<label for="reference">Référence </label>
-			<input type="text" name="reference" id="reference" value='${ livre != null ? livre.reference : "" }'>
+			<input type="text" name="reference" id="reference" value='${ livre != null ? livre.reference : "" }' ${ livre != null ? "disabled" : "" }>			
+			<% if(request.getAttribute("livre") != null) { %>
+			<input type="hidden" name="reference" value='${ livre.reference }'>
+			<% } %>
 		</div>
 		<div>
 			<label for="titre">Titre </label>

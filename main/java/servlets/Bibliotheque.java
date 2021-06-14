@@ -41,9 +41,11 @@ public class Bibliotheque extends HttpServlet {
 		//System.out.println(this.bibliotheque.size());
 		if(request.getParameter("action") != null && request.getParameter("reference") != null) {
 			
-			if(request.getParameter("action").equals("delete")) {		
+			if(request.getParameter("action").equals("delete")) {	
+				// Si action=delete : Je supprime mon livre
 				delLivre((request.getParameter("reference")));
 			} else if (request.getParameter("action").equals("modify")) {
+				// Sinon si action=modify : Je modifie les données de mon livre
 				request.setAttribute("livre", find(request.getParameter("reference")));
 			}
 		}
@@ -61,13 +63,26 @@ public class Bibliotheque extends HttpServlet {
 //		System.out.println(request.getParameter("reference"));
 //		System.out.println(request.getParameter("titre"));
 //		System.out.println(request.getParameter("auteur"));
-		String reference = request.getParameter("reference");
-		String titre = request.getParameter("titre");
-		String auteur = request.getParameter("auteur");
 		
-		Livre livre = new Livre(reference, titre, auteur);
+		if(request.getParameter("to") != null && request.getParameter("to").equals("add")) {
+			
+			// Si to=add : J'ajoute le livre à la bibliothèque
+			String reference = request.getParameter("reference");
+			String titre = request.getParameter("titre");
+			String auteur = request.getParameter("auteur");
+			
+			Livre livre = new Livre(reference, titre, auteur);
+			
+			this.bibliotheque.add(livre);
+			
+		} else if (request.getParameter("to") != null && request.getParameter("to").equals("mod")) {
+			
+			// Si to=mod : Je modifie les données du livre
+			Livre livre = find(request.getParameter("reference"));
+			livre.setTitre(request.getParameter("titre"));
+			livre.setAuteur(request.getParameter("auteur"));
+		}
 		
-		this.bibliotheque.add(livre);
 		
 		response.sendRedirect(request.getContextPath());
 	}
