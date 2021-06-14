@@ -32,6 +32,13 @@
 		<h2>Test validé</h2>
 	</c:if> --%> 
 	
+	<%-- <c:choose>
+	    <c:when test="${ condition }">Un texte</c:when>
+	    <c:when test="${ autreCondition }">Un autre texte</c:when>
+	    <c:when test="${ encoreUneAutreCondition }">Encore un autre texte</c:when>
+	    <c:otherwise>(Texte par défaut)</c:otherwise>
+	</c:choose> --%>
+	
 	<%-- Boucle for (boucle avec compteur) (équivalent) --%>
 	<%-- <% for(int i = 0; i <= 10; i++) { %>
 		<p>Un message n° <%= i %> !</p>
@@ -64,7 +71,7 @@
 		
 		<!-- Limite partie fixe/ itérations -->
 		<%-- <% for(Livre livre : (ArrayList<Livre>) request.getAttribute("bibliotheque")) { %> --%>
-		<c:forEach var="livre" items="${ bibliothèque }">
+		<c:forEach var="livre" items="${ bibliotheque }">
 		<tr>
 			<%-- <td><%= livre.getReference() %></td>
 			<td><%= livre.getTitre() %></td>
@@ -73,8 +80,8 @@
 			<td>${ livre.titre }</td>
 			<td>${ livre.auteur }</td>
 			<td>
-				<a href="bibliotheque?action=modify&reference=<%= livre.getReference() %>">Modifier</a> | 
-				<a href="bibliotheque?action=delete&reference=<%= livre.getReference() %>">Supprimer</a>
+				<a href="bibliotheque?action=modify&reference=${ livre.reference }">Modifier</a> | 
+				<a href="bibliotheque?action=delete&reference=${ livre.reference }">Supprimer</a>
 			</td>	
 			
 			
